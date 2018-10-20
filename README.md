@@ -1,2 +1,2 @@
 # SkipRope
-Music striming service
+Music streaming service
