@@ -1,5 +1,5 @@
 # SkipRope
 Music streaming service
 
-## [Shema](./doc/shema.xml)  
+## Shema [(xml)](./doc/shema.xml)  
 ![shema](./images/shema.png)
