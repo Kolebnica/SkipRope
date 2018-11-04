@@ -11,3 +11,6 @@ Music streaming service
 ## Configuration management
 
 1. Running consul docker image: `docker run -d --name=dev-consul --net=host consul`
+
+## Maven project structure
+Predpisana in zaželjena [struktura](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html?fbclid=IwAR2Ix3y_8HpP4bFjVu_q2gp5_elbSmJKJgaJ9FdgfmBBvTBcwtTEsWpRtJo) maven projekta.
