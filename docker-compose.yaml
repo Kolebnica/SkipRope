@@ -1,0 +1,47 @@
+version: '3'
+services:
+
+  postgres:
+    container_name: skiprope-postgres
+    image: "postgres"
+    environment:
+      POSTGRES_PASSWORD: skiprope
+    ports:
+     - 5432:5432
+
+  consul:
+    container_name: skiprope-consul
+    image: "consul"
+    ports:
+     - 8500:8500
+
+  userservice:
+    container_name: skiprope-userservice
+    image: "skiprope/userservice"
+    ports:
+     - 8080:8080
+    environment:
+      WAIT_HOSTS: postgres:5432
+    depends_on:
+     - postgres
+     - consul
+
+  profileservice:
+    container_name: skiprope-profileservice
+    image: "skiprope/profileservice"
+    ports:
+     - 8081:8081
+    environment:
+      WAIT_HOSTS: postgres:5432
+    depends_on:
+     - postgres
+     - consul
+
+  frontend:
+    container_name: skiprope-frontend
+    image: "skiprope/frontend"
+    ports:
+     - 3000:3000
+    depends_on:
+     - userservice
+     - profileservice
