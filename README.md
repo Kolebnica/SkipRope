@@ -39,3 +39,4 @@ Gain access to your cluster (IBM):
 
 Deploy:
 1. Move to location of \*.yaml file and run `kubectl create -f <deployment_file>.yaml`. 
+2. See deployments: `kubectl get deployments`.
