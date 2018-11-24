@@ -30,7 +30,7 @@ Prerequisites:
 - kubectl
 - ibmcloud CLI tool (for PowerShell: `Set-ExecutionPolicy Unrestricted; iex(New-Object Net.WebClient).DownloadString('http://ibm.biz/idt-win-installer')`)
 
-Gain access to your cluster (IBM):
+Gain access to your cluster (IBM): [Tukaj prašaj mene, ti pošljem config file]   
 1. Log in to your IBM Cloud account:`ibmcloud login -a https://api.eu-de.bluemix.net`
 2. Target the IBM Cloud Container Service region in which you want to work: `ibmcloud cs region-set eu-central`
 3. Get the command to set the environment variable and download the Kubernetes configuration files: `ibmcloud cs cluster-config skiprope`
@@ -40,3 +40,6 @@ Gain access to your cluster (IBM):
 Deploy:
 1. Move to location of \*.yaml file and run `kubectl create -f <deployment_file>.yaml`. 
 2. See deployments: `kubectl get deployments`.
+
+Update image:  
+- `kubectl set image deployments/userservice-deployment userservice=skiprope/userservice:latest`
