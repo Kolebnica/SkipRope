@@ -41,5 +41,7 @@ Deploy:
 1. Move to location of \*.yaml file and run `kubectl create -f <deployment_file>.yaml`. 
 2. See deployments: `kubectl get deployments`.
 
-Update image:  
-- `kubectl set image deployments/userservice-deployment userservice=skiprope/userservice:latest`
+Update image: 
+- cd to src of microservice
+- `kubectl replace --force -f .\*-deployment.yaml`
+- this is not the best way but it is the fastest
