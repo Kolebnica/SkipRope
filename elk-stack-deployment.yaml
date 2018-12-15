@@ -1,0 +1,49 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: elk-stack
+spec:
+  selector:
+    app: elk-stack
+  ports:
+  - protocol: "TCP"
+    port: 9200  
+    targetPort: 9200
+    name: elastic
+  - protocol: "TCP"
+    port: 5601      
+    targetPort: 5601
+    name: kibana
+  - protocol: "TCP"
+    port: 5044      
+    targetPort: 5044
+    name: logstash
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elk-stack-deployment
+  labels:
+    app: elk-stack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elk-stack
+  template:
+    metadata:
+      labels:
+        app: elk-stack
+    spec:
+      containers:
+      - name: elk-stack
+        image: sebp/elk
+        ports:
+        - containerPort: 9200
+          name: elastic
+        - containerPort: 5601
+          name: kibana
+        - containerPort: 5044
+          name: logstash
+        
