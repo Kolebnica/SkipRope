@@ -4,6 +4,17 @@ Music streaming service
 ## Shema [(xml)](./doc/shema.xml)  
 ![shema](./images/shema.png)
 
+## Uporabno
+- IBM IP: `http://159.122.179.108`
+- [Logit.io](https://logit.io) `blazak@martin.io` `BlaMar123`
+- [Kibana](https://logit.io/a/d3106b05-1d64-445f-99b3-c96477c19786/s/15398405-c4a4-4e88-b587-e80593ace71e/kibana/access)
+
+**Produkcija:**  
+- Consul [http://159.122.179.108:32316/ui/dc1](http://159.122.179.108:32316/ui/dc1)
+- UserService [http://159.122.179.108:30000](http://159.122.179.108:30000)
+- ProfileService [http://159.122.179.108:30001](http://159.122.179.108:30001)
+- Frontend [http://159.122.179.108:30901](http://159.122.179.108:30901)
+
 ## Database (postgres)
 
 1. Running docker image: `docker run --name skiprope-postgres -e POSTGRES_PASSWORD=skiprope --publish 5432:5432 -d postgres`
