@@ -1,29 +1,48 @@
 # SkipRope
-Music streaming service
+Music streaming service built with microservices.
 
-## Shema [(xml)](./doc/shema.xml)  
-![shema](./images/shema.png)
+Za vse podrobnosti o projektu glej [wiki](https://github.com/Kolebnica/SkipRope/wiki).
 
 ## Uporabno
 - IBM IP: `http://159.122.179.108`
 - [Logit.io](https://logit.io) `blazak@martin.io` `BlaMar123`
 - [Kibana](https://logit.io/a/d3106b05-1d64-445f-99b3-c96477c19786/s/15398405-c4a4-4e88-b587-e80593ace71e/kibana/access)
 
-**Produkcija:**  
-- Consul [http://159.122.179.108:32316/ui/dc1](http://159.122.179.108:32316/ui/dc1)
-- UserService [http://159.122.179.108:30000](http://159.122.179.108:30000)
-- ProfileService [http://159.122.179.108:30001](http://159.122.179.108:30001)
-- Frontend [http://159.122.179.108:30901](http://159.122.179.108:30901)
+## Produkcija
+
+Glej povezave na [wikiju](https://github.com/Kolebnica/SkipRope/wiki/Requirement-list) (Requirement list -> sekcija Kubernetes).
+
+## Docker images
+
+Posamezne mikrostoritve lahko zaženeš z ukazom (primer za userservice): `docker pull skiprope/userservice && docker run --rm --network=host skiprope/userservice`. Ko se vsebnik ugasne se tudi izbriše (če tega nočeš, odstrani option `--rm`).
 
 ## Database (postgres)
 
-1. Running docker image: `docker run --name skiprope-postgres -e POSTGRES_PASSWORD=skiprope --publish 5432:5432 -d postgres`
+Docker image: `docker run --name skiprope-postgres -e POSTGRES_PASSWORD=skiprope --publish 5432:5432 -d postgres`
 
 ## Configuration management
 
-1. Running consul docker image: `docker run -d --name=dev-consul --net=host consul`
+```
+docker run -d -p 2379:2379 \
+   --name etcd \
+   --volume=/tmp/etcd-data:/etcd-data \
+   quay.io/coreos/etcd:latest \
+   /usr/local/bin/etcd \
+   --name my-etcd-1 \
+   --data-dir /etcd-data \
+   --listen-client-urls http://0.0.0.0:2379 \
+   --advertise-client-urls http://0.0.0.0:2379 \
+   --listen-peer-urls http://0.0.0.0:2380 \
+   --initial-advertise-peer-urls http://0.0.0.0:2380 \
+   --initial-cluster my-etcd-1=http://0.0.0.0:2380 \
+   --initial-cluster-token my-etcd-token \
+   --initial-cluster-state new \
+   --auto-compaction-retention 1 \
+   -cors="*"
+```
 
 ## Maven project structure
+
 Predpisana in zaželjena [struktura](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html?fbclid=IwAR2Ix3y_8HpP4bFjVu_q2gp5_elbSmJKJgaJ9FdgfmBBvTBcwtTEsWpRtJo) maven projekta.
 
 ## Using Docker compose
