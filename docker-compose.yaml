@@ -1,6 +1,5 @@
 version: '3'
 services:
-
   postgres:
     container_name: skiprope-postgres
     image: "postgres"
@@ -45,3 +44,33 @@ services:
     depends_on:
      - userservice
      - profileservice
+     
+  songservice:
+    container_name: skiprope-songservice
+    image: "skiprope/songservice"
+    ports:
+     - 8082:8082
+    environment:
+      WAIT_HOSTS: postgres:5432
+    depends_on:
+     - postgres
+     - consul
+     
+  apiservice:
+    container_name: skiprope-apiservice
+    image: "skiprope/apiservice"
+    ports:
+     - 8084:8084
+    depends_on:
+     - consul
+
+  libraryservice:
+    container_name: skiprope-libraryservice
+    image: "skiprope/libraryservice"
+    ports:
+     - 8083:8083
+    environment:
+      WAIT_HOSTS: postgres:5432
+    depends_on:
+     - postgres
+     - consul
