@@ -6,71 +6,91 @@ services:
     environment:
       POSTGRES_PASSWORD: skiprope
     ports:
-     - 5432:5432
+    - 5432:5432
 
-  consul:
-    container_name: skiprope-consul
-    image: "consul"
+  etcd:
+    command:
+    - /usr/local/bin/etcd
+    - --name
+    - etcd0
+    - --initial-advertise-peer-urls
+    - http://etcd:2380
+    - --listen-peer-urls
+    - http://0.0.0.0:2380
+    - --listen-client-urls
+    - http://0.0.0.0:2379
+    - --advertise-client-urls
+    - http://etcd:2379
+    - --initial-cluster-state
+    - new
+    - -cors
+    - "*"
+    - --data-dir
+    - /etcd-data
+    image: quay.io/coreos/etcd:latest
     ports:
-     - 8500:8500
+    - 2379:2379
 
   userservice:
     container_name: skiprope-userservice
-    image: "skiprope/userservice"
+    image: "skiprope/userservice:latest"
     ports:
      - 8080:8080
     environment:
       WAIT_HOSTS: postgres:5432
     depends_on:
      - postgres
-     - consul
+     - etcd
 
   profileservice:
     container_name: skiprope-profileservice
-    image: "skiprope/profileservice"
+    image: "skiprope/profileservice:latest"
     ports:
      - 8081:8081
     environment:
       WAIT_HOSTS: postgres:5432
     depends_on:
      - postgres
-     - consul
+     - etcd
 
   frontend:
     container_name: skiprope-frontend
-    image: "skiprope/frontend"
+    image: "skiprope/frontend:latest"
     ports:
      - 3000:3000
     depends_on:
-     - userservice
-     - profileservice
+     - apiservice
      
   songservice:
     container_name: skiprope-songservice
-    image: "skiprope/songservice"
+    image: "skiprope/songservice:latest"
     ports:
      - 8082:8082
     environment:
       WAIT_HOSTS: postgres:5432
     depends_on:
      - postgres
-     - consul
+     - etcd
      
   apiservice:
     container_name: skiprope-apiservice
-    image: "skiprope/apiservice"
+    image: "skiprope/apiservice:latest"
     ports:
      - 8084:8084
     depends_on:
-     - consul
+     - etcd
+     - userservice
+     - songservice
+     - profileservice
+     - libraryservice
 
   libraryservice:
     container_name: skiprope-libraryservice
-    image: "skiprope/libraryservice"
+    image: "skiprope/libraryservice:latest"
     ports:
      - 8083:8083
     environment:
       WAIT_HOSTS: postgres:5432
     depends_on:
      - postgres
-     - consul
+     - etcd
